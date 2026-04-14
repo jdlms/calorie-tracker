@@ -1,3 +1,4 @@
+// Command server runs the calorie tracker HTTP service and Telegram poller.
 package main
 
 import (

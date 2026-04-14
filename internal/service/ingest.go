@@ -1,3 +1,4 @@
+// Package service implements the application's business logic.
 package service
 
 import (

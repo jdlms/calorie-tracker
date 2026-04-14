@@ -1,3 +1,4 @@
+// Package telegram implements Telegram long polling and update handling.
 package telegram
 
 import (

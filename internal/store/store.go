@@ -1,3 +1,4 @@
+// Package store provides BoltDB-backed persistence for the application.
 package store
 
 import (

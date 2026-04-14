@@ -112,8 +112,9 @@ Environment variables:
 |`BOLTDB_PATH`|No|BoltDB file path. Default `data/calorie-tracker.db`|
 |`TELEGRAM_BOT_TOKEN`|Yes for Telegram ingestion|Telegram bot token|
 |`TELEGRAM_ALLOWED_CHAT_ID`|Recommended|Only accept messages from this chat ID|
+|`LLM_PROVIDER`|No|LLM provider ID. Currently `mistral`, `ollama`, or `openai`. Default `mistral`|
 |`LLM_API_KEY`|Usually|API key for the configured LLM provider|
-|`LLM_BASE_URL`|Optional|Base URL for an OpenAI-compatible API|
+|`LLM_BASE_URL`|Optional|Provider base URL override, useful for self-hosted or custom endpoints|
 |`LLM_MODEL`|Yes for ingestion|Model name to use for nutrition estimation|
 
 ### Running Locally
@@ -129,6 +130,23 @@ make run
 ```
 
 If `LLM_MODEL` is not set, LLM-backed ingestion is disabled and Telegram/manual ingestion will fail.
+
+### Example: Mistral
+
+```env
+LLM_PROVIDER=mistral
+LLM_API_KEY=your-mistral-api-key
+LLM_BASE_URL=
+LLM_MODEL=mistral-small-latest
+```
+
+### Example: Ollama with a local Mistral model
+
+```env
+LLM_PROVIDER=ollama
+LLM_BASE_URL=http://localhost:11434
+LLM_MODEL=mistral
+```
 
 ## Docker
 

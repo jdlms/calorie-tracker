@@ -1,3 +1,4 @@
+// Package handler provides HTTP handlers for the application.
 package handler
 
 import (
@@ -49,6 +50,7 @@ func (a *API) handleHealth(w http.ResponseWriter, r *http.Request) {
 			},
 			"llm": map[string]any{
 				"configured": a.cfg.LLMConfigured(),
+				"provider":   a.cfg.LLMProvider,
 				"model":      a.cfg.LLMModel,
 			},
 		},
@@ -63,6 +65,7 @@ func (a *API) handleConfigured(w http.ResponseWriter, r *http.Request) {
 		},
 		"llm": map[string]any{
 			"configured": a.cfg.LLMConfigured(),
+			"provider":   a.cfg.LLMProvider,
 			"base_url":   a.cfg.LLMBaseURL,
 			"model":      a.cfg.LLMModel,
 		},

@@ -1,3 +1,4 @@
+// Package model defines the application's core data structures.
 package model
 
 // Entry is a single calorie tracking record.

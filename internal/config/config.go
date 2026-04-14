@@ -1,3 +1,4 @@
+// Package config loads and validates application configuration.
 package config
 
 import (
@@ -12,6 +13,7 @@ type Config struct {
 	BoltDBPath            string
 	TelegramAllowedChatID int64
 	TelegramBotToken      string
+	LLMProvider           string
 	LLMBaseURL            string
 	LLMAPIKey             string
 	LLMModel              string
@@ -39,6 +41,7 @@ func Load() (Config, error) {
 		BoltDBPath:            getenv("BOLTDB_PATH", "data/calorie-tracker.db"),
 		TelegramAllowedChatID: allowedChatID,
 		TelegramBotToken:      os.Getenv("TELEGRAM_BOT_TOKEN"),
+		LLMProvider:           getenv("LLM_PROVIDER", "mistral"),
 		LLMBaseURL:            getenv("LLM_BASE_URL", ""),
 		LLMAPIKey:             os.Getenv("LLM_API_KEY"),
 		LLMModel:              getenv("LLM_MODEL", ""),

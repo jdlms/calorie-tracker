@@ -1,3 +1,4 @@
+// Package llm provides nutritional estimation via LLM providers.
 package llm
 
 import (
@@ -8,6 +9,8 @@ import (
 
 	anyllm "github.com/mozilla-ai/any-llm-go"
 	"github.com/mozilla-ai/any-llm-go/providers"
+	"github.com/mozilla-ai/any-llm-go/providers/mistral"
+	"github.com/mozilla-ai/any-llm-go/providers/ollama"
 	"github.com/mozilla-ai/any-llm-go/providers/openai"
 
 	"github.com/joshua-lamorey/calorie-counter/internal/config"
@@ -51,28 +54,34 @@ func New(cfg config.Config) (Client, error) {
 }
 
 func newProvider(cfg config.Config) (providers.Provider, error) {
-	if cfg.LLMBaseURL != "" {
-		provider, err := openai.NewCompatible(openai.CompatibleConfig{
-			Name:           "openai-compatible",
-			DefaultBaseURL: cfg.LLMBaseURL,
-			RequireAPIKey:  false,
-			Capabilities: providers.Capabilities{
-				Completion: true,
-			},
-		}, anyllm.WithAPIKey(cfg.LLMAPIKey))
+	switch strings.ToLower(strings.TrimSpace(cfg.LLMProvider)) {
+	case "", "mistral":
+		provider, err := mistral.New(
+			anyllm.WithAPIKey(cfg.LLMAPIKey),
+			anyllm.WithBaseURL(cfg.LLMBaseURL),
+		)
 		if err != nil {
-			return nil, fmt.Errorf("creating openai-compatible provider: %w", err)
+			return nil, fmt.Errorf("creating mistral provider: %w", err)
 		}
-
 		return provider, nil
+	case "openai":
+		provider, err := openai.New(
+			anyllm.WithAPIKey(cfg.LLMAPIKey),
+			anyllm.WithBaseURL(cfg.LLMBaseURL),
+		)
+		if err != nil {
+			return nil, fmt.Errorf("creating openai provider: %w", err)
+		}
+		return provider, nil
+	case "ollama":
+		provider, err := ollama.New(anyllm.WithBaseURL(cfg.LLMBaseURL))
+		if err != nil {
+			return nil, fmt.Errorf("creating ollama provider: %w", err)
+		}
+		return provider, nil
+	default:
+		return nil, fmt.Errorf("unsupported llm provider %q", cfg.LLMProvider)
 	}
-
-	provider, err := openai.New(anyllm.WithAPIKey(cfg.LLMAPIKey))
-	if err != nil {
-		return nil, fmt.Errorf("creating openai provider: %w", err)
-	}
-
-	return provider, nil
 }
 
 // EstimateEntry estimates nutrition data for a free-text meal description.

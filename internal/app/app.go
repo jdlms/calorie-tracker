@@ -1,3 +1,4 @@
+// Package app wires the application's runtime dependencies and lifecycle.
 package app
 
 import (
