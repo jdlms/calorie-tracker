@@ -1,0 +1,14 @@
+.env
+/data/
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+
+# binaries
+/calorie-tracker
+*.exe
+*.out
