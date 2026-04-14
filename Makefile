@@ -1,15 +1,21 @@
 APP=calorie-tracker
 
-.PHONY: run build fmt tidy docker-build up down
+.PHONY: run build fmt tidy frontend-install frontend-build docker-build up down
 
-run:
+run: frontend-build
 	go run ./cmd/server
 
-build:
+build: frontend-build
 	CGO_ENABLED=0 go build ./...
 
 fmt:
 	gofmt -w ./cmd ./internal ./web
+
+frontend-install:
+	cd frontend && npm install
+
+frontend-build:
+	cd frontend && npm run build
 
 tidy:
 	go mod tidy

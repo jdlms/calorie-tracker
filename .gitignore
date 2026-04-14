@@ -8,7 +8,11 @@
 .vscode/
 .idea/
 
+# frontend dependencies
+/frontend/node_modules/
+
 # binaries
 /calorie-tracker
 *.exe
 *.out
+/frontend/node_modules

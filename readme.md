@@ -90,8 +90,10 @@ curl -X POST http://localhost:8080/api/entries \
 ## Frontend
 
 - **Framework:** Svelte
-- **Serving:** Built static assets (`npm run build` output) are embedded into the Go binary using Go's `embed.FS` (standard library, Go 1.16+). Served via `http.FileServer`. No separate frontend process.
-- **Scope:** Display daily entries in a table, show running totals, basic date navigation.
+- **Serving:** Built static assets are embedded into the Go binary using Go's `embed.FS` (standard library, Go 1.16+). Served via `http.FileServer`. No separate frontend process.
+- **Scope:** Display daily entries in a table, show running totals, and allow day-by-day navigation to review current and past days.
+- **Source:** `frontend/`
+- **Build output:** `web/dist/`
 
 ## Containerisation
 
@@ -128,6 +130,8 @@ Or with Make:
 ```bash
 make run
 ```
+
+The Make targets build the Svelte frontend before starting or compiling the Go binary.
 
 If `LLM_MODEL` is not set, LLM-backed ingestion is disabled and Telegram/manual ingestion will fail.
 
