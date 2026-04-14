@@ -11,6 +11,9 @@
 # frontend dependencies
 /frontend/node_modules/
 
+# built frontend assets
+/web/dist/
+
 # binaries
 /calorie-tracker
 *.exe
