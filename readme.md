@@ -89,11 +89,17 @@ curl -X POST http://localhost:8080/api/entries \
 
 ## Frontend
 
-- **Framework:** Svelte
+- **Framework:** Svelte 5 + Vite
 - **Serving:** Built static assets are embedded into the Go binary using Go's `embed.FS` (standard library, Go 1.16+). Served via `http.FileServer`. No separate frontend process.
-- **Scope:** Display daily entries in a table, show running totals, and allow day-by-day navigation to review current and past days.
+- **Scope:**
+  - day-by-day navigation
+  - daily totals
+  - daily entries table
+  - 7-day calorie bar chart
+  - stacked pastel-colored segments for individual entries within each day's bar
 - **Source:** `frontend/`
 - **Build output:** `web/dist/`
+- **Git:** `web/dist/` is generated and gitignored
 
 ## Containerisation
 
@@ -133,6 +139,22 @@ make run
 
 The Make targets build the Svelte frontend before starting or compiling the Go binary.
 
+### Frontend Development
+
+Install frontend dependencies:
+
+```bash
+make frontend-install
+```
+
+Run the Vite dev server:
+
+```bash
+cd frontend && npm run dev
+```
+
+The dev server runs on `http://localhost:5173` and proxies `/api` to `http://localhost:8080`.
+
 If `LLM_MODEL` is not set, LLM-backed ingestion is disabled and Telegram/manual ingestion will fail.
 
 ### Example: Mistral
@@ -165,6 +187,8 @@ Or via Make:
 ```bash
 make up
 ```
+
+The container build includes a frontend build stage before the Go binary is compiled.
 
 The container exposes port `8080` and stores BoltDB data in `./data` on the host.
 
