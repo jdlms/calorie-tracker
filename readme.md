@@ -1,4 +1,4 @@
-# Calorie Tracker
+# 🍞 Calorie Tracker
 
 This is a small personal calorie tracker.
 
