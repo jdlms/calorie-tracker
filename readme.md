@@ -10,6 +10,8 @@ Everything runs as one app:
 - embedded Svelte frontend
 - BoltDB for storage
 
+![Calorie Tracker UI](docs/screenshot.png)
+
 ## What it does
 
 - stores calorie entries by day
