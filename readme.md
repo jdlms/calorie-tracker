@@ -1,6 +1,6 @@
 # 🍞 Calorie Tracker
 
-This is a small personal calorie tracker.
+A small personal calorie tracker.
 
 You send a message to a Telegram bot with what you ate. The app sends that text to an LLM, gets back an estimated nutrition breakdown, stores it in BoltDB, and shows it in a simple web UI.
 
