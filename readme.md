@@ -9,14 +9,13 @@ Everything runs as one app:
 - Go backend
 - embedded Svelte frontend
 - BoltDB for storage
-- optional Telegram ingestion
 
 ## What it does
 
 - stores calorie entries by day
 - shows a day view and week view
 - supports manual entry through the API
-- can read messages from Telegram using long polling
+- reads messages from Telegram using long polling
 
 ## Configuration
 
@@ -78,10 +77,3 @@ curl -X POST http://localhost:8080/api/entries \
     "timestamp": "2026-04-14T12:00:00Z"
   }'
 ```
-
-## Notes
-
-- data is stored in BoltDB
-- Telegram uses long polling, not webhooks
-- the frontend is built from `frontend/` and embedded into the Go binary
-- deployment notes are in `deploy.md`
