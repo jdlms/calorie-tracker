@@ -32,8 +32,6 @@ Main ones:
 - `LLM_BASE_URL` - optional
 - `LLM_MODEL` - required for LLM-backed ingestion
 
-If `LLM_MODEL` is not set, ingestion that depends on the LLM will not work.
-
 ## Run locally
 
 Run the server:
