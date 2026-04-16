@@ -1,7 +1,7 @@
 FROM node:22-alpine AS frontend-builder
 WORKDIR /app/frontend
 COPY frontend/package.json frontend/package-lock.json* ./
-RUN npm install
+RUN npm ci
 COPY frontend ./
 RUN npm run build
 
@@ -13,7 +13,6 @@ RUN go mod download
 
 COPY cmd ./cmd
 COPY internal ./internal
-COPY web ./web
 COPY web ./web
 COPY --from=frontend-builder /app/web/dist ./web/dist
 

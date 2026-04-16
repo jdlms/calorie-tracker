@@ -1,0 +1,13 @@
+.git
+.gitignore
+.env
+.env.*
+data
+frontend/node_modules
+web/dist
+calorie-tracker
+*.exe
+*.out
+.DS_Store
+.vscode
+.idea
