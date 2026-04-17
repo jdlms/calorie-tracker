@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"strings"
 
 	anyllm "github.com/mozilla-ai/any-llm-go"
@@ -117,16 +118,24 @@ func (c *NutritionClient) EstimateEntry(ctx context.Context, message string) (mo
 
 	content := strings.TrimSpace(response.Choices[0].Message.ContentString())
 	if content == "" {
+		slog.WarnContext(ctx, "llm returned empty content", "message", message, "model", c.model)
 		return model.Entry{}, fmt.Errorf("llm returned empty content")
 	}
 
 	var parsed llmEntryResponse
 	if err := json.Unmarshal([]byte(content), &parsed); err != nil {
+		slog.WarnContext(ctx, "failed to parse llm json response", "error", err, "message", message, "model", c.model, "content", content)
 		return model.Entry{}, fmt.Errorf("parsing llm json response: %w", err)
 	}
 
 	if parsed.Kcal < 0 || parsed.Protein < 0 || parsed.Fat < 0 || parsed.Carbs < 0 {
+		slog.WarnContext(ctx, "llm returned negative nutrition values", "message", message, "model", c.model, "content", content, "kcal", parsed.Kcal, "protein", parsed.Protein, "fat", parsed.Fat, "carbs", parsed.Carbs)
 		return model.Entry{}, fmt.Errorf("llm returned negative nutrition values")
+	}
+
+	if parsed.Kcal == 0 && parsed.Protein == 0 && parsed.Fat == 0 && parsed.Carbs == 0 {
+		slog.WarnContext(ctx, "llm returned all-zero nutrition values", "message", message, "model", c.model, "content", content)
+		return model.Entry{}, fmt.Errorf("llm returned all-zero nutrition values")
 	}
 
 	return model.Entry{
