@@ -45,8 +45,11 @@ go run ./cmd/server
 Or with Docker Compose:
 
 ```bash
+mkdir -p /opt/data/calorie-tracker
 docker compose up --build
 ```
+
+The Compose setup mounts persistent app data from `/opt/data/calorie-tracker` on the host into `/app/data` in the container so BoltDB survives container rebuilds and restarts.
 
 The app serves the frontend and API on port `8080` by default.
 

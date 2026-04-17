@@ -9,5 +9,5 @@ services:
     env_file:
       - .env
     volumes:
-      - ./data:/app/data
+      - /opt/data/calorie-tracker:/app/data
     restart: unless-stopped
